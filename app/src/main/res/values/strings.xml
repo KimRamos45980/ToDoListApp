@@ -2,4 +2,6 @@
     <string name="app_name">ToDoListApp</string>
     <string name="NewFolder">+</string>
     <string name="button">+</string>
+    <string name="newFolderConfirm">Save</string>
+    <string name="newFolderCancel">Cancel</string>
 </resources>
