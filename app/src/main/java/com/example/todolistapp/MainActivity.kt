@@ -17,9 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // MutableList to hold all user generated folder names
         val folderList: MutableList<String> = ArrayList()
 
-        // Button click
+        // Add new folder button click
         button.setOnClickListener {
             // Inflate dialog with view
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.folder_name, null)
@@ -31,24 +32,21 @@ class MainActivity : AppCompatActivity() {
             val mAlertDialog = mBuilder.show()
             // Save button click on custom layout
             mDialogView.save.setOnClickListener {
-                // dismiss alert
+                // Dismiss alert
                 mAlertDialog.dismiss()
-                // get values from alert dialog
+                // Get user inputted folder name from alert dialog
                 val folderName = mDialogView.dialogFolderName.text.toString()
-                // Set inputed text in listView
+                // Add folder name into list
                 folderList.add(folderName)
             }
             // Cancel button click on custom layout
             mDialogView.cancel.setOnClickListener {
-                // dismiss alert
+                // Dismiss alert
                 mAlertDialog.dismiss()
             }
         }
 
-        //val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, folderList)
-
-        // Custom adapter for ListView
-        //listView.adapter = arrayAdapter
+        // Custom adapter for ListView - pass both context/user's folder list
         listView.adapter = MyCustomAdapter(this, folderList)
     }
 
@@ -78,9 +76,19 @@ class MainActivity : AppCompatActivity() {
 
         // responsible for rendering each row in ListView
         override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
-            val textView = TextView(mContext)
-            textView.text = folders.get(position)
-            return textView
+            val layoutInflater = LayoutInflater.from(mContext)
+            val rowMain = layoutInflater.inflate(R.layout.row_main, viewGroup, false)
+
+            val folderNames = rowMain.findViewById<TextView>(R.id.folderName_textView)
+            folderNames.text = folders.get(position)
+
+            val positionTextView = rowMain.findViewById<TextView>(R.id.position_textView)
+            positionTextView.text = "Row number: $position"
+
+            return rowMain
+            //val textView = TextView(mContext)
+            //textView.text = folders.get(position)
+            //return textView
         }
     }
 }
