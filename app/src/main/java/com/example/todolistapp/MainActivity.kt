@@ -35,9 +35,11 @@ class MainActivity : AppCompatActivity() {
                 // Dismiss alert
                 mAlertDialog.dismiss()
                 // Get user inputted folder name from alert dialog
-                val folderName = mDialogView.dialogFolderName.text.toString()
-                // Add folder name into list
-                folderList.add(folderName)
+                val folderName = (mDialogView.dialogFolderName.text.toString()).trim()
+                // Add folder name into list if not left blank
+                if (folderName.isNotEmpty()) {
+                    folderList.add(folderName)
+                }
             }
             // Cancel button click on custom layout
             mDialogView.cancel.setOnClickListener {
