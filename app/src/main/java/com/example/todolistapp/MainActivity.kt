@@ -17,8 +17,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val folderList: MutableList<String> = ArrayList()
+
         // Button click
-        val newFolder = button.setOnClickListener {
+        button.setOnClickListener {
             // Inflate dialog with view
             val mDialogView = LayoutInflater.from(this).inflate(R.layout.folder_name, null)
             // Alert Dialog Builder
@@ -34,6 +36,7 @@ class MainActivity : AppCompatActivity() {
                 // get values from alert dialog
                 val folderName = mDialogView.dialogFolderName.text.toString()
                 // Set inputed text in listView
+                folderList.add(folderName)
             }
             // Cancel button click on custom layout
             mDialogView.cancel.setOnClickListener {
@@ -42,13 +45,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, folderList)
+
         // Custom adapter for ListView
-        listView.adapter = MyCustomAdapter(this)
+        //listView.adapter = arrayAdapter
+        listView.adapter = MyCustomAdapter(this, folderList)
     }
 
-    private class MyCustomAdapter(context: Context): BaseAdapter() {
+    private class MyCustomAdapter(context: Context, list: MutableList<String>): BaseAdapter() {
 
         private val mContext: Context
+        private val folders = list
 
         init {
             mContext = context
@@ -56,7 +63,7 @@ class MainActivity : AppCompatActivity() {
 
         // Responsible for how many rows in ListView
         override fun getCount(): Int {
-            return 5
+            return folders.size
         }
 
         // Ignore for now
@@ -72,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         // responsible for rendering each row in ListView
         override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
             val textView = TextView(mContext)
-            textView.text = "Test text for list view"
+            textView.text = folders.get(position)
             return textView
         }
     }
