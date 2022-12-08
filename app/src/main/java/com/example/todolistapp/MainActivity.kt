@@ -1,13 +1,13 @@
 package com.example.todolistapp
 
 import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.folder_name.view.*
@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val mainListView = findViewById<ListView>(R.id.listView)
 
         // MutableList to hold all user generated folder names
         val folderList: MutableList<String> = ArrayList()
@@ -50,6 +52,13 @@ class MainActivity : AppCompatActivity() {
 
         // Custom adapter for ListView - pass both context/user's folder list
         listView.adapter = MyCustomAdapter(this, folderList)
+
+        // List View Item click event that opens selected folder's activity
+        mainListView.setOnItemClickListener { parent, view, position, id ->
+            val intent = Intent(this, MainActivity2::class.java)
+            this.startActivity(intent)
+        }
+
     }
 
     private class MyCustomAdapter(context: Context, list: MutableList<String>): BaseAdapter() {
