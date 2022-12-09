@@ -55,10 +55,12 @@ class MainActivity : AppCompatActivity() {
 
         // List View Item click event that opens selected folder's activity
         mainListView.setOnItemClickListener { parent, view, position, id ->
+            val folder = folderList?.get(position)
+
             val intent = Intent(this, MainActivity2::class.java)
+            intent.putExtra("folderName", folder)
             this.startActivity(intent)
         }
-
     }
 
     private class MyCustomAdapter(context: Context, list: MutableList<String>): BaseAdapter() {
@@ -97,9 +99,6 @@ class MainActivity : AppCompatActivity() {
             positionTextView.text = "Row number: $position"
 
             return rowMain
-            //val textView = TextView(mContext)
-            //textView.text = folders.get(position)
-            //return textView
         }
     }
 }
